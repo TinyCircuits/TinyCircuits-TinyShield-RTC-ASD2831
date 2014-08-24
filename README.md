@@ -1,7 +1,7 @@
 # TinyCircuits TinyShield RTC Board
 # ASD2831 Rev4
 
-These are the design files for the TinyCircuits ASD2201 Rev 1 PCB.  This is a TinyShield board (20mm x 20mm) that has a Real-time clock.
+These are the design files for the TinyCircuits ASD2831 Rev 4 PCB.  This is a TinyShield board (20mm x 20mm) that has a Real-time clock.
 
 Format is in Cadsoft Eagle format - Eagle version 6.2 was used for the original design.
 
