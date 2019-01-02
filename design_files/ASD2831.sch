@@ -137,16 +137,11 @@
 <packages>
 <package name="DF12-32-DS">
 <description>Hirose DF12 Pattern with metal fitting, 32 positions</description>
-<wire x1="6.2319" y1="-2.8037" x2="-6.242" y2="-2.791" width="0.2" layer="39"/>
-<wire x1="-6.242" y1="-2.791" x2="-6.242" y2="2.7352" width="0.2" layer="39"/>
-<wire x1="5.3488" y1="-1.3975" x2="-5.392" y2="-1.4102" width="0.2032" layer="51"/>
-<wire x1="-5.392" y1="-1.4102" x2="-5.392" y2="1.2845" width="0.2032" layer="51"/>
-<wire x1="-5.392" y1="1.2845" x2="5.3488" y2="1.2972" width="0.2032" layer="51"/>
-<wire x1="5.2954" y1="-1.0943" x2="-5.3601" y2="-1.0867" width="0.2032" layer="21"/>
-<wire x1="5.3488" y1="1.2972" x2="5.3488" y2="-1.3975" width="0.2032" layer="51"/>
-<wire x1="6.2319" y1="2.7225" x2="6.2319" y2="-2.8037" width="0.2" layer="39"/>
-<wire x1="-6.242" y1="2.7352" x2="6.2319" y2="2.7225" width="0.2" layer="39"/>
-<circle x="-3.7338" y="3.0861" radius="0.127" width="0.127" layer="21"/>
+<wire x1="5.1" y1="-1.9" x2="-5.1" y2="-1.9" width="0.2032" layer="51"/>
+<wire x1="-5.1" y1="-1.9" x2="-5.1" y2="1.9" width="0.2032" layer="51"/>
+<wire x1="-5.1" y1="1.9" x2="5.1" y2="1.9" width="0.2032" layer="51"/>
+<wire x1="5.1" y1="1.9" x2="5.1" y2="-1.9" width="0.2032" layer="51"/>
+<circle x="-3.8" y="3" radius="0.127" width="0.127" layer="21"/>
 <smd name="F1" x="-5.5" y="0" dx="0.9" dy="1.8" layer="1"/>
 <smd name="17" x="0.25" y="1.8001" dx="0.3" dy="1.6" layer="1" cream="no"/>
 <smd name="19" x="0.75" y="1.8001" dx="0.3" dy="1.6" layer="1" cream="no"/>
@@ -181,7 +176,7 @@
 <smd name="31" x="3.75" y="1.8001" dx="0.3" dy="1.6" layer="1" cream="no"/>
 <smd name="32" x="3.75" y="-1.8001" dx="0.3" dy="1.6" layer="1" cream="no"/>
 <smd name="2" x="-3.75" y="-1.8001" dx="0.3" dy="1.6" layer="1" cream="no"/>
-<text x="0" y="0" size="0.635" layer="25" align="center">&gt;NAME</text>
+<text x="0" y="0" size="0.762" layer="25" align="center">&gt;NAME</text>
 <rectangle x1="-0.8829" y1="1.651" x2="0.3871" y2="1.8542" layer="51" rot="R90"/>
 <rectangle x1="-1.3833" y1="-1.9685" x2="-0.1133" y2="-1.7653" layer="51" rot="R90"/>
 <rectangle x1="-1.3858" y1="1.6535" x2="-0.1158" y2="1.8567" layer="51" rot="R90"/>
@@ -214,9 +209,9 @@
 <rectangle x1="-3.3797" y1="-1.9659" x2="-2.1097" y2="-1.7627" layer="51" rot="R90"/>
 <rectangle x1="-3.8852" y1="-1.9659" x2="-2.6152" y2="-1.7627" layer="51" rot="R90"/>
 <rectangle x1="-4.3855" y1="-1.9659" x2="-3.1155" y2="-1.7627" layer="51" rot="R90"/>
-<hole x="-4.8" y="1.5" drill="0.6"/>
-<hole x="4.8" y="1.5" drill="0.6"/>
-<circle x="-4.2418" y="2.3241" radius="0.127" width="0.127" layer="51"/>
+<hole x="-4.8" y="1.5" drill="0.65"/>
+<hole x="4.8" y="1.5" drill="0.65"/>
+<circle x="-3.8" y="3" radius="0.127" width="0.127" layer="51"/>
 <polygon width="0.127" layer="29">
 <vertex x="-5.5626" y="1.4986" curve="90"/>
 <vertex x="-4.8006" y="0.7366" curve="90"/>
@@ -261,19 +256,26 @@
 <rectangle x1="2.1378" y1="1.2066" x2="2.3578" y2="2.5066" layer="31"/>
 <rectangle x1="2.6378" y1="1.2066" x2="2.8578" y2="2.5066" layer="31"/>
 <rectangle x1="3.1378" y1="1.2066" x2="3.3578" y2="2.5066" layer="31"/>
+<polygon width="0.127" layer="30">
+<vertex x="-5.5626" y="1.4986" curve="90"/>
+<vertex x="-4.8006" y="0.7366" curve="90"/>
+<vertex x="-4.0386" y="1.4986" curve="90"/>
+<vertex x="-4.8006" y="2.2606" curve="90"/>
+</polygon>
+<polygon width="0.127" layer="30">
+<vertex x="4.0386" y="1.4986" curve="90"/>
+<vertex x="4.8006" y="0.7366" curve="90"/>
+<vertex x="5.5626" y="1.4986" curve="90"/>
+<vertex x="4.8006" y="2.2606" curve="90"/>
+</polygon>
 </package>
 <package name="DF12-32-DP">
 <description>Hirose DF12 Pattern with metal fitting, 32 positions</description>
-<wire x1="6.2319" y1="-2.8037" x2="-6.242" y2="-2.791" width="0.2" layer="39"/>
-<wire x1="-6.242" y1="-2.791" x2="-6.242" y2="2.7352" width="0.2" layer="39"/>
-<wire x1="5.3488" y1="-1.3975" x2="-5.392" y2="-1.4102" width="0.2032" layer="51"/>
-<wire x1="-5.392" y1="-1.4102" x2="-5.392" y2="1.2845" width="0.2032" layer="51"/>
-<wire x1="-5.392" y1="1.2845" x2="5.3488" y2="1.2972" width="0.2032" layer="51"/>
-<wire x1="5.2954" y1="-1.0943" x2="-5.3601" y2="-1.0867" width="0.2032" layer="21"/>
-<wire x1="5.3488" y1="1.2972" x2="5.3488" y2="-1.3975" width="0.2032" layer="51"/>
-<wire x1="6.2319" y1="2.7225" x2="6.2319" y2="-2.8037" width="0.2" layer="39"/>
-<wire x1="-6.242" y1="2.7352" x2="6.2319" y2="2.7225" width="0.2" layer="39"/>
-<circle x="-4.2164" y="-2.413" radius="0.127" width="0.127" layer="21"/>
+<wire x1="5.1" y1="-1.9" x2="-5.1" y2="-1.9" width="0.2032" layer="51"/>
+<wire x1="-5.1" y1="-1.9" x2="-5.1" y2="1.9" width="0.2032" layer="51"/>
+<wire x1="-5.1" y1="1.9" x2="5.1" y2="1.9" width="0.2032" layer="51"/>
+<wire x1="5.1" y1="1.9" x2="5.1" y2="-1.9" width="0.2032" layer="51"/>
+<circle x="-3.8" y="-3" radius="0.127" width="0.127" layer="21"/>
 <smd name="F1" x="-5.5" y="0" dx="0.9" dy="1.8" layer="1"/>
 <smd name="18" x="0.25" y="1.8001" dx="0.3" dy="1.6" layer="1" cream="no"/>
 <smd name="20" x="0.75" y="1.8001" dx="0.3" dy="1.6" layer="1" cream="no"/>
@@ -308,7 +310,7 @@
 <smd name="32" x="3.75" y="1.8001" dx="0.3" dy="1.6" layer="1" cream="no"/>
 <smd name="31" x="3.75" y="-1.8001" dx="0.3" dy="1.6" layer="1" cream="no"/>
 <smd name="1" x="-3.75" y="-1.8001" dx="0.3" dy="1.6" layer="1" cream="no"/>
-<text x="0" y="0" size="0.635" layer="25" align="center">&gt;NAME</text>
+<text x="0" y="0" size="0.762" layer="25" align="center">&gt;NAME</text>
 <rectangle x1="-0.8829" y1="1.651" x2="0.3871" y2="1.8542" layer="51" rot="R90"/>
 <rectangle x1="-1.3833" y1="-1.9685" x2="-0.1133" y2="-1.7653" layer="51" rot="R90"/>
 <rectangle x1="-1.3858" y1="1.6535" x2="-0.1158" y2="1.8567" layer="51" rot="R90"/>
@@ -341,9 +343,9 @@
 <rectangle x1="-3.3797" y1="-1.9659" x2="-2.1097" y2="-1.7627" layer="51" rot="R90"/>
 <rectangle x1="-3.8852" y1="-1.9659" x2="-2.6152" y2="-1.7627" layer="51" rot="R90"/>
 <rectangle x1="-4.3855" y1="-1.9659" x2="-3.1155" y2="-1.7627" layer="51" rot="R90"/>
-<hole x="-4.8" y="1.5" drill="0.6"/>
-<hole x="4.8" y="1.5" drill="0.6"/>
-<circle x="-4.2164" y="-2.413" radius="0.127" width="0.127" layer="51"/>
+<hole x="-4.8" y="1.5" drill="0.65"/>
+<hole x="4.8" y="1.5" drill="0.65"/>
+<circle x="-3.8" y="-3" radius="0.127" width="0.127" layer="51"/>
 <polygon width="0.127" layer="29">
 <vertex x="-5.5626" y="1.4986" curve="90"/>
 <vertex x="-4.8006" y="0.7366" curve="90"/>
@@ -388,6 +390,18 @@
 <rectangle x1="2.6378" y1="-2.5034" x2="2.8578" y2="-1.2034" layer="31"/>
 <rectangle x1="3.1378" y1="-2.5034" x2="3.3578" y2="-1.2034" layer="31"/>
 <rectangle x1="3.6378" y1="-2.5034" x2="3.8578" y2="-1.2034" layer="31"/>
+<polygon width="0.127" layer="30">
+<vertex x="-5.5626" y="1.4986" curve="90"/>
+<vertex x="-4.8006" y="0.7366" curve="90"/>
+<vertex x="-4.0386" y="1.4986" curve="90"/>
+<vertex x="-4.8006" y="2.2606" curve="90"/>
+</polygon>
+<polygon width="0.127" layer="30">
+<vertex x="4.0386" y="1.4986" curve="90"/>
+<vertex x="4.8006" y="0.7366" curve="90"/>
+<vertex x="5.5626" y="1.4986" curve="90"/>
+<vertex x="4.8006" y="2.2606" curve="90"/>
+</polygon>
 </package>
 <package name="8-USOP">
 <smd name="4" x="0.95" y="-2.1" dx="0.4" dy="1.35" layer="1" rot="R180"/>
@@ -414,13 +428,15 @@
 </package>
 <package name="0402">
 <description>Multilayer SMD</description>
-<wire x1="-0.998" y1="0.3504" x2="0.9907" y2="0.3504" width="0.127" layer="51"/>
-<wire x1="0.9907" y1="0.3504" x2="0.9907" y2="-0.3432" width="0.127" layer="51"/>
-<wire x1="0.9907" y1="-0.3432" x2="-0.998" y2="-0.3432" width="0.127" layer="51"/>
-<wire x1="-0.998" y1="-0.3432" x2="-0.998" y2="0.3504" width="0.127" layer="51"/>
-<smd name="1" x="-0.6" y="0" dx="0.65" dy="0.55" layer="1"/>
-<smd name="2" x="0.6" y="0" dx="0.65" dy="0.55" layer="1"/>
-<text x="0" y="0" size="0.3048" layer="25" align="center">&gt;NAME</text>
+<wire x1="-1" y1="0.35" x2="1" y2="0.35" width="0.127" layer="51"/>
+<wire x1="1" y1="0.35" x2="1" y2="-0.35" width="0.127" layer="51"/>
+<wire x1="1" y1="-0.35" x2="-1" y2="-0.35" width="0.127" layer="51"/>
+<wire x1="-1" y1="-0.35" x2="-1" y2="0.35" width="0.127" layer="51"/>
+<smd name="1" x="-0.6" y="0" dx="0.65" dy="0.55" layer="1" cream="no"/>
+<smd name="2" x="0.6" y="0" dx="0.65" dy="0.55" layer="1" cream="no"/>
+<text x="0" y="0" size="0.5" layer="25" align="center">&gt;NAME</text>
+<rectangle x1="-0.925" y1="-0.275" x2="-0.275" y2="0.275" layer="31"/>
+<rectangle x1="0.275" y1="-0.275" x2="0.925" y2="0.275" layer="31"/>
 </package>
 <package name="ML-920S/DN">
 <smd name="-" x="6.95" y="-0.95" dx="2" dy="0.5" layer="1"/>
@@ -478,13 +494,15 @@
 </package>
 <package name="C0402">
 <description>&lt;b&gt;CAPACITOR&lt;/b&gt;</description>
-<wire x1="-1.0324" y1="0.4272" x2="1.0324" y2="0.4272" width="0.1016" layer="51"/>
-<wire x1="1.007" y1="-0.4272" x2="-1.0324" y2="-0.4272" width="0.1016" layer="51"/>
-<smd name="1" x="-0.65" y="0" dx="0.65" dy="0.6" layer="1"/>
-<smd name="2" x="0.65" y="0" dx="0.65" dy="0.6" layer="1"/>
-<text x="0" y="0" size="0.381" layer="25" align="center">&gt;NAME</text>
-<wire x1="-1.0414" y1="0.4318" x2="-1.0414" y2="-0.4064" width="0.1016" layer="51"/>
-<wire x1="1.0414" y1="0.4318" x2="1.0414" y2="-0.4318" width="0.1016" layer="51"/>
+<wire x1="-1.04" y1="0.36" x2="1.04" y2="0.36" width="0.1016" layer="51"/>
+<wire x1="1.04" y1="-0.36" x2="-1.04" y2="-0.36" width="0.1016" layer="51"/>
+<smd name="1" x="-0.65" y="0" dx="0.65" dy="0.6" layer="1" cream="no"/>
+<smd name="2" x="0.65" y="0" dx="0.65" dy="0.6" layer="1" cream="no"/>
+<text x="0" y="0" size="0.508" layer="25" align="center">&gt;NAME</text>
+<wire x1="-1.04" y1="0.36" x2="-1.04" y2="-0.36" width="0.1016" layer="51"/>
+<wire x1="1.04" y1="0.36" x2="1.04" y2="-0.36" width="0.1016" layer="51"/>
+<rectangle x1="-0.975" y1="-0.3" x2="-0.325" y2="0.3" layer="31"/>
+<rectangle x1="0.325" y1="-0.3" x2="0.975" y2="0.3" layer="31"/>
 </package>
 </packages>
 <symbols>
@@ -627,7 +645,7 @@
 <text x="88.921590625" y="11.402059375" size="2.54" layer="94" font="vector">REV:</text>
 <text x="1.291590625" y="19.022059375" size="2.54" layer="94" font="vector">TITLE:</text>
 <text x="1.291590625" y="11.402059375" size="2.54" layer="94" font="vector">Document Number:</text>
-<text x="42.642790625" y="27.302459375" size="2.286" layer="94" font="vector">http://www.Tiny-Circuits.com</text>
+<text x="42.642790625" y="27.302459375" size="2.286" layer="94" font="vector">http://www.TinyCircuits.com</text>
 <rectangle x1="3.883025" y1="24.876125" x2="4.130675" y2="24.882475" layer="94"/>
 <rectangle x1="3.883025" y1="24.882475" x2="4.130675" y2="24.888825" layer="94"/>
 <rectangle x1="3.883025" y1="24.888825" x2="4.130675" y2="24.895175" layer="94"/>
@@ -11050,7 +11068,20 @@
 </connects>
 <technologies>
 <technology name="">
+<attribute name="PARTNO" value="AS-ITM-00076" constant="no"/>
 <attribute name="VALUE" value="SHORT" constant="no"/>
+</technology>
+</technologies>
+</device>
+<device name="C0402" package="C0402">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="PARTNO" value="AS-ITM-00076" constant="no"/>
+<attribute name="VALUE" value="0.0" constant="no"/>
 </technology>
 </technologies>
 </device>
@@ -11120,7 +11151,7 @@
 <part name="Y1" library="tinycircuits" deviceset="AS-ITM-00183" device="" value="300-8739-1-ND">
 <attribute name="VALUE" value="CM200C-32.768KDZBT"/>
 </part>
-<part name="R4" library="tinycircuits" deviceset="AS-ITM-00076" device="0402_SHORT"/>
+<part name="R4" library="tinycircuits" deviceset="AS-ITM-00076" device="0402_SHORT" value="0.0"/>
 <part name="R5" library="tinycircuits" deviceset="AS-ITM-00076" device="" value="0.0"/>
 <part name="C1" library="tinycircuits" deviceset="AS-ITM-00008" device="" value="0.1uF"/>
 <part name="GND4" library="tinycircuits" deviceset="GND" device=""/>
@@ -11141,6 +11172,11 @@
 <text x="45.72" y="10.16" size="3.048" layer="91">TinyDuino, TinyLily and TinyShield Designs by TinyCircuits</text>
 <text x="45.72" y="20.32" size="3.048" layer="91">Original Arduino Uno Design by Team Arduino</text>
 <text x="142.24" y="193.548" size="3.81" layer="94" font="vector">Maxim DS1339</text>
+<text x="50.8" y="55.88" size="1.778" layer="97">Non Populated: R4, R5</text>
+<text x="50.8" y="53.34" size="1.778" layer="97">Hand Populated: Y1</text>
+<text x="50.8" y="50.8" size="1.778" layer="97">Hand Soldered: B1</text>
+<text x="50.8" y="48.26" size="1.778" layer="97">Notes: Battery attached with Locktite 382 after reflow and hand soldered.</text>
+<text x="50.8" y="58.42" size="1.778" layer="97">Variant: Standard - R</text>
 </plain>
 <instances>
 <instance part="J1" gate="G$1" x="337.82" y="106.68">
