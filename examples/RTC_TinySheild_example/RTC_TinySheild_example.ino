@@ -1,157 +1,79 @@
+/*
+  TinyCircuits Real-Time Clock TinyShield Example Sketch
+  
+  This example code shows basic usage of the DS1339 Real-Time Clock TinyShield.
+  
+  Be sure to set the Serial Monitor to "No line ending"
+  
+  Written
+  By Ben Rose
+  Modified 21 May 2019
+  By Hunter Hykes
+  https://TinyCircuits.com
+  
+*/
+
 #include "DSRTCLib.h"
 #include <Wire.h>
 #include <avr/power.h>
 #include <avr/sleep.h>
 
-/*
-  DS1339 RTC Example
-  Tests and examples for common RTC library features.
-  This shows the basic functions (reading and setting time/alarm values), converting back and forth between epoch seconds and calendar dates,
-  and using alarm interrupts.
-
-  Don't let the 'Binary sketch size' throw you; this example file and all its print statements add a lot of overhead.
- 
- */
-
-
 int ledPin =  13;    // LED connected to digital pin 13
 int INT_PIN = 3; // INTerrupt pin from the RTC. On Arduino Uno, this should be mapped to digital pin 2 or pin 3, which support external interrupts
 int int_number = 1; // On Arduino Uno, INT0 corresponds to pin 2, and INT1 to pin 3
 
-DS1339 RTC = DS1339();
+volatile int alarmTriggered = 0; //flags when the alarm (interrupt) is triggered
+
+unsigned long printInterval = 1000; //for displaying alarm countdown info
+unsigned long lastPrint = 0;
+
+//use this initialization to disable interrupts
+//DS1339 RTC = DS1339(); //starts I2C communication (INT_PIN = 2, int_number = 0)
 
 //use this initialization to enable interrupts
-//DS1339 RTC = DS1339(INT_PIN, int_number);
+DS1339 RTC = DS1339(INT_PIN, int_number);
+  //INT_PIN is INPUT for Interrupt
+  //int_number enables a software pullup on RTC Interrupt pin
 
-
-void setup()   {
-  
+void setup() {
   pinMode(ledPin, OUTPUT);    
   digitalWrite(ledPin, LOW);
-
-
-  // enable deep sleeping
+  
+  //INTERRUPTS
+  digitalWrite(INT_PIN, HIGH);
+  attachInterrupt(1, alarm, FALLING);
+  
+  //enable deep sleeping
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);
   sleep_enable();
 
-  Serial.begin(9600);
+  Serial.flush();     //clear serial line
+  Serial.begin(9600); //start serial comms
   Serial.println ("DSRTCLib Tests");
 
   RTC.start(); // ensure RTC oscillator is running, if not already
   
-  if(!RTC.time_is_set()) // set a time, if none set already...
-  {
+  if(!RTC.time_is_set()) { // set a time, if none set already...
     Serial.print("Clock not set. ");
     set_time();
   }
   
   // If the oscillator is borked (or not really talking to the RTC), try to warn about it
-  if(!RTC.time_is_set())
-  {
+  if(!RTC.time_is_set()) {
     Serial.println("Clock did not set! Check that its oscillator is working.");
   }
-}
-
-int read_int(char sep)
-{
-  static byte c;
-  static int i;
-
-  i = 0;
-  while (1)
-  {
-    while (!Serial.available())
-    {;}
- 
-    c = Serial.read();
-    // Serial.write(c);
   
-    if (c == sep)
-    {
-      // Serial.print("Return value is");
-      // Serial.println(i);
-      return i;
-    }
-    if (isdigit(c))
-    {
-      i = i * 10 + c - '0';
-    }
-    else
-    {
-      Serial.print("\r\nERROR: \"");
-      Serial.write(c);
-      Serial.print("\" is not a digit\r\n");
-      return -1;
-    }
-  }
+  RTC.enable_interrupt();
 }
 
-int read_int(int numbytes)
-{
-  static byte c;
-  static int i;
-  int num = 0;
-
-  i = 0;
-  while (1)
-  {
-    while (!Serial.available())
-    {;}
- 
-    c = Serial.read();
-    num++;
-    // Serial.write(c);
-  
-    if (isdigit(c))
-    {
-      i = i * 10 + c - '0';
-    }
-    else
-    {
-      Serial.print("\r\nERROR: \"");
-      Serial.write(c);
-      Serial.print("\" is not a digit\r\n");
-      return -1;
-    }
-    if (num == numbytes)
-    {
-      // Serial.print("Return value is");
-      // Serial.println(i);
-      return i;
-    }
-  }
-}
-
-int read_date(int *year, int *month, int *day, int *hour, int* minute, int* second)
-{
-
-  *year = read_int(4);
-  *month = read_int(2);
-  *day = read_int(' ');
-  *hour = read_int(':');
-  *minute = read_int(':');
-  *second = read_int(2);
-
-  return 0;
-}
-
-void nap()
-{
-  // Dummy function. We don't actually want to do anything here, just use an interrupt to wake up.
-  //RTC.clear_interrupt();
-  // For some reason, sending commands to clear the interrupt on the RTC here does not work. Maybe Wire uses interrupts itself?
-  Serial.print(".");
-
-}
-
-void loop()                     
-{
+void loop() {
   Serial.flush();
-  Serial.println ("\nRTC Library Tests \n 1) Basic (read and write time) \n 2) Alarm interrupts/wakeup \n 3) date <--> epoch seconds validation \n 4) Read time \n 5) Set time \n");
+  Serial.println ("\nRTC Library Tests \n 1) Basic (read and write time) \n 2) Alarm interrupts/wakeup \n 3) date <--> epoch seconds validation \n 4) Read time \n 5) Set time \n 6) Set alarm \n");
   Serial.flush();
 
-
-  while(!Serial.available()){}
+  while(!Serial.available()){ //while there is no input
+    ;                         //do nothing
+  }
   
   switch(Serial.read())
   {
@@ -169,24 +91,197 @@ void loop()
       break;
     case '5':
       set_time();
+    case '6':
+      set_alarm() ;
     default:
       break;
-    
   }
-
 }
 
-void set_time()
-{
-    Serial.println("Enter date and time (YYYYMMDD HH:MM:SS)");
+//CASE 6
+int set_alarm() {
+  //setup
+  Serial.print("Alarm set to: ");
+  RTC.readAlarm();
+  Serial.print(int(RTC.getHours()));
+  Serial.print(":");
+  Serial.print(int(RTC.getMinutes()));
+  Serial.print(":");
+  Serial.println(int(RTC.getSeconds()));
+  
+  Serial.println("Enter time for alarm (HH:MM:SS)");
+
+  while(1) {
+    if(millis() > printInterval + lastPrint) {
+      lastPrint = millis();
+      read_time();
+    }
+    
+    if(Serial.available() > 5){
+      delay(100);
+      char in[10]; //array for storing alarm time 
+      int i = 0;
+    
+      while(Serial.available() && i < 10){ //read 10 bytes of data
+        in[i] = Serial.read();
+        
+        if(isdigit(in[i]))
+          i++;
+      }
+      
+      if(i > 5){
+        int hour=((in[0]-'0') * 10) + (in[1] - '0');
+        int minute=((in[2]-'0') * 10) + (in[3] - '0');
+        int second=((in[4]-'0') * 10) + (in[5] - '0');
+        RTC.setHours(hour);
+        RTC.setMinutes(minute);
+        RTC.setSeconds(second);
+        RTC.setAlarmRepeat(EVERY_WEEK);
+        RTC.writeAlarm();
+        Serial.print("Alarm set to ");
+        Serial.print(hour);
+        Serial.print(":");
+        Serial.print(minute);
+        Serial.print(":");
+        Serial.println(second);
+      }else{
+        Serial.println("Input error!");
+      }
+    }
+  
+    if(alarmTriggered) {
+      RTC.clear_interrupt();
+      attachInterrupt(1, alarm, FALLING);
+
+      alarmTriggered = 0;
+      
+      if(millis() > 3000) { //ignore interrupts at startup
+        Serial.println("Alarm!");
+        //Do stuff! We'll just turn on the pin 13 LED for a second
+        digitalWrite(ledPin, HIGH);
+        delay(1000);
+        digitalWrite(ledPin, LOW);
+
+        return 0;
+      }
+    }
+  }
+}
+
+void alarm() {
+  detachInterrupt(1);  
+  alarmTriggered = 1;
+}
+
+//case 2 helper
+void nap() {
+  // Dummy function. We don't actually want to do anything here, just use an interrupt to wake up.
+  //RTC.clear_interrupt();
+  // For some reason, sending commands to clear the interrupt on the RTC here does not work. Maybe Wire uses interrupts itself?
+  Serial.print(".");
+}
+
+//case 5 helper
+int read_int(int numbytes) {
+  static byte c;  //character read in
+  static int i;   //return variable
+  static int d;   //used to calculate current digit
+  int num = 0;    //used to count iterations
+
+  i = 0;
+
+  while(1) {
+    while(!Serial.available()) {  //while no serial data received
+      ;                           //do nothing
+    }
+
+    c = Serial.read();            //read one byte (character) of data
+    num++;                        //tracks number of bytes read
+
+    if(isdigit(c)) {              //if the byte read is a digit
+      d = c - '0';                //converts ASCII value of digit to decimal value
+
+      for (int k = 0; k < numbytes - num; k++) {
+        d *= 10;  //multiplies digit by proper power of 10
+      } //would have used pow(), but type conversion made this difficult
+
+      i += d; //add the new value of c to the variable to be returned
+      
+    } else {
+      Serial.print("\r\nERROR: \"");
+      Serial.print(c);
+      Serial.println("\" is not a digit.\r\n");
+      return -1;
+    }
+
+    if(num == numbytes) {       //if we have read all desired bytes
+      //Serial.print("Return value is: ");
+      //Serial.println(i);
+      return i;                 //return requested data
+    }
+  }
+}
+
+//case 5 helper
+int read_int(char sep) {
+  static byte c;
+  static int i;
+
+  i = 0;
+  while (1)
+  {
+    while(!Serial.available()) { //if no serial data is being received
+      ;                           //do nothing
+    }
+    
+    c = Serial.read();            //read one byte (character) of data
+    //Serial.write(c);
+    
+    if (c == sep) //if the byte read matches the byte (char) passed to the function
+    {
+      Serial.print("Return value is: ");
+      Serial.println(i);
+      return i;
+    }
+    if (isdigit(c))
+    {
+      i = i * 10 + c - '0';
+    }
+    else
+    {
+      Serial.print("\r\nERROR: \"");
+      Serial.print(c);
+      Serial.println("\" is not a digit\r\n");
+      return -1;
+    }
+  }
+}
+
+//case 5 helper
+int read_date(int* year, int* month, int *day, int* hour, int* minute, int* second) {
+  *year = read_int(4);
+  *month = read_int(2);
+  *day = read_int(' ');
+  *hour = read_int(':');
+  *minute = read_int(':');
+  *second = read_int(2);
+  
+  return 0;
+}
+
+//CASE 5
+void set_time() {
+  Serial.println("Enter date and time (YYYYMMDD HH:MM:SS)");
     int year, month, day, hour, minute, second;
+    
     int result = read_date(&year, &month, &day, &hour, &minute, &second);
-    if (result != 0) {
+    
+    if (result != 0) { //if all goes well, result should be 0
       Serial.println("Date not in correct format!");
       return;
     } 
     
-    // set initially to epoch
+    //set initially to epoch
     RTC.setSeconds(second);
     RTC.setMinutes(minute);
     RTC.setHours(hour);
@@ -194,20 +289,20 @@ void set_time()
     RTC.setMonths(month);
     RTC.setYears(year);
     RTC.writeTime();
+    
     read_time();
 }
 
-void read_time() 
-{
+//CASE 4
+void read_time()  {
   Serial.print ("The current time is ");
   RTC.readTime(); // update RTC library's buffers from chip
   printTime(0);
   Serial.println();
-
 }
 
-void test_basic()
-{
+//CASE 1
+void test_basic() {
   // Test basic functions (time read and write)
   Serial.print ("The current time is ");
   RTC.readTime(); // update RTC library's buffers from chip
@@ -228,9 +323,10 @@ void test_basic()
     Serial.println("  (we'll never forget)");
     
     Serial.println("Setting time using epoch seconds: 2971468800 (midnight on 2/29/2064)");
-    RTC.writeTime(2971468800u);
-    delay(500);  
-    RTC.readTime();    
+    //RTC.writeTime(2971468800u);
+    RTC.writeTime(2971468800);
+    delay(500);
+    RTC.readTime();
     Serial.print("Read back: ");
     printTime(0);
     Serial.println("  (Happy 21st birthday Carlotta) ");    
@@ -261,8 +357,8 @@ void test_basic()
     Serial.println("\n");
  }
 
-void test_interrupts()
-{
+//CASE 2
+void test_interrupts() {
   Serial.println("Setting a 1Hz periodic alarm interrupt to sleep in between. Watchen das blinkenlights...");
   Serial.flush();
   
@@ -311,8 +407,8 @@ void test_interrupts()
   Serial.println("...and wake up again.");  
 }
 
-void test_epoch_seconds()
-{
+//CASE 3
+void test_epoch_seconds() {
   // Output the time calculated in epoch seconds at midnight for every day between 1/1/2000 and 12/31/2099.
   // Also, convert the result back to a date/time and make sure it matches the original value.
   
@@ -397,9 +493,7 @@ void test_epoch_seconds()
   }
 }
 
-
-void printTime(byte type)
-{
+void printTime(byte type) {
   // Print a formatted string of the current date and time.
   // If 'type' is non-zero, print as an alarm value (seconds thru DOW/month only)
   // This function assumes the desired time values are already present in the RTC library buffer (e.g. readTime() has been called recently)
@@ -431,7 +525,5 @@ void printTime(byte type)
   Serial.print(":");
   Serial.print(int(RTC.getMinutes()));
   Serial.print(":");
-  Serial.print(int(RTC.getSeconds()));  
+  Serial.print(int(RTC.getSeconds()));
 }
-
-
